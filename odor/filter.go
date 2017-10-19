@@ -14,8 +14,8 @@ type Profile struct {
 
 // Context to use by filters.
 type Context struct {
-	PacketInitial *gopacket.Packet
-	Packet        *gopacket.Packet
+	PacketInitial gopacket.Packet
+	Packet        gopacket.Packet
 	Profile       *Profile
 }
 
