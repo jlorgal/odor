@@ -49,8 +49,8 @@ func (n *NetFilter) Callback(payload *nfqueue.Payload) int {
 	// Decode a packet
 	packet := gopacket.NewPacket(payload.Data, layers.LayerTypeIPv4, gopacket.Default)
 	context := &Context{
-		PacketInitial: &packet,
-		Packet:        &packet,
+		PacketInitial: packet,
+		Packet:        packet,
 	}
 	action := n.handler.HandlePacket(context)
 	switch action {
@@ -60,4 +60,12 @@ func (n *NetFilter) Callback(payload *nfqueue.Payload) int {
 		payload.SetVerdict(nfqueue.NF_DROP)
 	}
 	return 0
+}
+
+// GetIPv4Layer returns the IPv4 layer of the packet.
+func GetIPv4Layer(packet gopacket.Packet) *layers.IPv4 {
+	if ipv4Layer := packet.Layer(layers.LayerTypeIPv4); ipv4Layer != nil {
+		return ipv4Layer.(*layers.IPv4)
+	}
+	return nil
 }

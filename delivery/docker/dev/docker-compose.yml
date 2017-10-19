@@ -10,6 +10,4 @@ services:
       - ../../../:/root/go/src/github.com/jlorgal/odor
     ports:
       - 9000:9000
-    # user: contint
-    # entrypoint: delivery/docker/dev/entrypoint.sh
-    command: sleep 10000
+    command: make run
