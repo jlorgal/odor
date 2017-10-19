@@ -2,14 +2,50 @@
 
 
 [[projects]]
+  name = "github.com/caarlos0/env"
+  packages = ["."]
+  revision = "0cf029d5748c52beb2c9d20c81880cb4bdf8f788"
+  version = "v3.0"
+
+[[projects]]
   name = "github.com/google/gopacket"
   packages = ["."]
   revision = "11c65f1ca9081dfea43b4f9643f5c155583b73ba"
   version = "v1.1.14"
 
+[[projects]]
+  name = "github.com/google/uuid"
+  packages = ["."]
+  revision = "064e2069ce9c359c118179501254f67d7d37ba24"
+  version = "0.2"
+
+[[projects]]
+  name = "github.com/imdario/mergo"
+  packages = ["."]
+  revision = "7fe0c75c13abdee74b09fcacef5ea1c6bba6a874"
+  version = "0.2.4"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/xeipuuv/gojsonpointer"
+  packages = ["."]
+  revision = "6fe8760cad3569743d51ddbb243b26f8456742dc"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/xeipuuv/gojsonreference"
+  packages = ["."]
+  revision = "e02fc20de94c78484cd5ffb007f8af96be030a45"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/xeipuuv/gojsonschema"
+  packages = ["."]
+  revision = "3f523f4c14b6e925da10475eb0447c2f28614aac"
+
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "355ee061c527e073afa8c024489befb54aeaa19e316b5805db73a9fe25c66bd4"
+  inputs-digest = "e7333f9d4a2ea8fd10e0abff60786b558575aae95f88520129c29e064745c315"
   solver-name = "gps-cdcl"
   solver-version = 1
