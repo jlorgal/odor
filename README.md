@@ -1,4 +1,4 @@
-# niji-orchestrator
+# Odor
 
 Orchestrator of niji and nijiHome backends to expose a single REST API.
 
