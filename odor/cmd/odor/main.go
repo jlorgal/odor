@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/jlorgal/odor/odor"
+	"github.com/jlorgal/odor/odor/profile"
 	"github.com/jlorgal/odor/odor/svc"
 )
 
@@ -37,6 +38,8 @@ func main() {
 		logger.Info("Configuration: %s", string(configBytes))
 	}
 
+	serviceProfile := profile.New(&cfg)
+
 	// Capture signals to stop the service
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt, syscall.SIGHUP, syscall.SIGTERM)
@@ -44,11 +47,13 @@ func main() {
 		for sig := range c {
 			logger.Warn("Captured signal %s. Stopping service", sig)
 			// TODO: How to stop the service???
+			serviceProfile.Stop()
 			os.Exit(0)
 		}
 	}()
 
 	// Start the service
 	logger.Info("Starting service")
+	serviceProfile.Start()
 	// How to start the service???
 }
