@@ -8,8 +8,14 @@
   version = "v3.0"
 
 [[projects]]
+  branch = "master"
+  name = "github.com/chifflier/nfqueue-go"
+  packages = ["nfqueue"]
+  revision = "61ca646babef3bd4dea1deb610bfb0005c0a1298"
+
+[[projects]]
   name = "github.com/google/gopacket"
-  packages = ["."]
+  packages = [".","layers"]
   revision = "11c65f1ca9081dfea43b4f9643f5c155583b73ba"
   version = "v1.1.14"
 
@@ -58,6 +64,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "4976c595fb7d6c44cb5b47a803dce0c7279bd88ec259fd24540317c5c79d96bb"
+  inputs-digest = "793e0e54de9a90baa78b17fb0d8f41f33e423df3532fe5afc8b97c5781d29678"
   solver-name = "gps-cdcl"
   solver-version = 1

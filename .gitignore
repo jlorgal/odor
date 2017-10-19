@@ -30,6 +30,7 @@ debug.test
 
 # vendor directory
 vendor/
+_vendor-*/
 
 # build directory
 build/
