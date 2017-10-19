@@ -57,6 +57,8 @@ build-deps:
 
 build-config:
 	$(info) "Copying configuration"
+	mkdir -p build/bin
+	cp odor/cmd/odor/config.json build/bin/
 
 build: build-config build-deps dep
 	$(info) "Building version: $(BUILD_VERSION)"
