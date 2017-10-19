@@ -90,7 +90,8 @@ func (s *Service) UpdateUserProfile(w http.ResponseWriter, r *http.Request) {
 	decoder := json.NewDecoder(r.Body)
 	err := decoder.Decode(&request)
 	if err != nil {
-		http.Error(w, "Bad request", http.StatusBadRequest)
+		invalidRequestError := svc.NewInvalidRequestError("Bad Request", "Bad Request")
+		svc.ReplyWithError(w, r, invalidRequestError)
 		return
 	}
 	s.users <- &request
