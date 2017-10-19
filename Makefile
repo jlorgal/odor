@@ -38,11 +38,15 @@ Commands:
   pipeline-pull:   Launch pipeline to handle a pull request
   pipeline-dev:    Launch pipeline to handle the merge of a pull request
   pipeline:        Launch the pipeline for the selected environment
+  develenv-up:     Launch the development environment with a docker-compose of the service
+  develenv-sh:     Access to a shell of a launched development environment
+  develenv-down:   Stop the development environment
 endef
 export help
 
 .PHONY: help dep build-deps build-config build test-acceptance release-deps release run clean \
-		pipeline-pull pipeline-dev pipeline
+		pipeline-pull pipeline-dev pipeline \
+		develenv-up develenv-sh develenv-down
 
 help:
 	@echo "$$help"
@@ -102,6 +106,18 @@ pipeline-dev:  build test-acceptance release
 	$(info) "Completed successfully pipeline-dev"
 
 pipeline:      pipeline-$(ENVIRONMENT)
+
+develenv-up:
+	$(info) "Launching the development environment"
+	docker-compose -p develenv -f delivery/docker/dev/docker-compose.yml build
+	docker-compose -p develenv -f delivery/docker/dev/docker-compose.yml up -d
+
+develenv-sh:
+	docker exec -it develenv_odor_1 bash
+
+develenv-down:
+	$(info) "Shutting down the development environment"
+	docker-compose -p develenv -f delivery/docker/dev/docker-compose.yml down
 
 # Functions
 info := @printf "\033[32;01m%s\033[0m\n"
