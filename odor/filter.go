@@ -4,12 +4,12 @@ import "github.com/google/gopacket"
 
 // Profile contains the user identity (msisdn) and settings.
 type Profile struct {
-	MSISDN          string
-	AntiPhishing    bool
-	AntiMalware     bool
-	ParentalControl bool
-	AdBlocking      bool
-	Captive         bool
+	MSISDN          string `json:"msisdn"`
+	AntiPhishing    bool   `json:"antiPhising"`
+	AntiMalware     bool   `json:"antiMalware"`
+	ParentalControl bool   `json:"parentalControl"`
+	AdBlocking      bool   `json:"adBlocking"`
+	Captive         bool   `json:"captive"`
 }
 
 // Context to use by filters.

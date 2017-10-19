@@ -1,3 +1,4 @@
 {
-    "logLevel": "INFO"
+    "logLevel": "INFO",
+    "Address": "localhost:1111"
 }
