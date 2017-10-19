@@ -1,4 +1,4 @@
 {
     "logLevel": "INFO",
-    "Address": "localhost:1111"
+    "Address": ":9000"
 }
