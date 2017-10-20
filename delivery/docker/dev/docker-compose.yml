@@ -10,4 +10,5 @@ services:
       - ../../../:/root/go/src/github.com/jlorgal/odor
     ports:
       - 9000:9000
-    command: make run
+    #command: make run
+    command: sleep 1000
