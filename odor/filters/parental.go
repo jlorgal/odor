@@ -8,18 +8,22 @@ import (
 
 // ParentalControl filter.
 type ParentalControl struct {
+	blacklist []*net.IPNet
 }
 
 // NewParentalControl creates a ParentalControl filter
-func NewParentalControl() *ParentalControl {
-	return &ParentalControl{}
+func NewParentalControl(config *odor.Config) (*ParentalControl, error) {
+	blacklist, err := odor.GetBlacklist("parental", config)
+	return &ParentalControl{blacklist: blacklist}, err
 }
 
 // Request filters ingress packets.
 func (p *ParentalControl) Request(context *odor.Context) odor.FilterAction {
+	if context.Profile == nil || !context.Profile.ParentalControl {
+		return odor.Accept
+	}
 	if ipv4 := odor.GetIPv4Layer(context.Packet); ipv4 != nil {
-		// TODO: Tomorrow we introduce machine learning :P
-		if ipv4.DstIP.Equal(net.ParseIP("176.34.179.218")) {
+		if odor.IsBlacklistedIP(p.blacklist, ipv4.DstIP) {
 			return odor.Drop
 		}
 	}

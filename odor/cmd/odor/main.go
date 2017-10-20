@@ -57,11 +57,17 @@ func main() {
 	logger.Info("Starting service")
 	serviceProfile.Start()
 
-	// Start the pipeline engine
+	// Create filters
+	parentalControlFilter, err := filters.NewParentalControl(&cfg)
+	if err != nil {
+		logger.Fatal("Bad configuration for parental control filter. %s", err)
+		os.Exit(1)
+	}
 
+	// Start the pipeline engine
 	pipeline := odor.NewPipeline()
 	pipeline.AddFilters(
-		filters.NewParentalControl(),
+		parentalControlFilter,
 	)
 
 }

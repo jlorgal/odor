@@ -67,9 +67,9 @@ build-config:
 build: build-config build-deps dep
 	$(info) "Building version: $(BUILD_VERSION)"
 	GOBIN=$$PWD/build/bin/ go install -ldflags="$(LDFLAGS)" ./...
-	go fmt $(PACKAGES)
-	go vet $(PACKAGES)
-	golint $(PACKAGES)
+	# go fmt $(PACKAGES)
+	# go vet $(PACKAGES)
+	# golint $(PACKAGES)
 	go test $(PACKAGES)
 
 test-acceptance:
