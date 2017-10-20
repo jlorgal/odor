@@ -8,6 +8,8 @@ import (
 	"github.com/google/gopacket/layers"
 )
 
+var netFilterStatic *NetFilter
+
 // PacketHandler interface that implements the callback to handle a packet.
 type PacketHandler interface {
 	HandlePacket(context *Context) FilterAction
@@ -26,8 +28,14 @@ func NewNetFilter(handler PacketHandler) *NetFilter {
 		queue:   queue,
 		handler: handler,
 	}
-	queue.SetCallback(netFilter.Callback)
+	netFilterStatic = netFilter
+	//queue.SetCallback(netFilter.Callback)
+	queue.SetCallback(static_callback)
 	return netFilter
+}
+
+func static_callback(payload *nfqueue.Payload) int {
+	return netFilterStatic.Callback(payload)
 }
 
 // Start the NetFilter queue.
@@ -45,7 +53,7 @@ func (n *NetFilter) Stop() {
 }
 
 // Callback to handle a packet from NetFilter queue.
-func (n *NetFilter) Callback(payload *nfqueue.Payload) int {
+func (n NetFilter) Callback(payload *nfqueue.Payload) int {
 	// Decode a packet
 	packet := gopacket.NewPacket(payload.Data, layers.LayerTypeIPv4, gopacket.Default)
 	context := &Context{
