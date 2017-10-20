@@ -1,4 +1,15 @@
 {
     "logLevel": "INFO",
-    "Address": ":9000"
+    "address": ":9000",
+    "filters": {
+        "malware": [
+            "216.58.192.0/19"
+        ],
+        "parental": [
+            "216.58.192.0/19"
+        ],
+        "adBlocking": [
+            "216.58.192.0/19"
+        ]
+    }
 }
