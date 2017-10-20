@@ -105,10 +105,10 @@ The configuration includes the blocking rules:
 
 | Category | Site | IP range |
 |----------|------|----------|
-| Parental control | www.888poker.es, wwww.888casino.es | 91.109.250.0/24 |
+| Parental control | www.888poker.es, www.888casino.es | 91.109.250.0/24 |
 | Parental control | www.xvideos.com | 185.88.181.0/24 |
 | Malware | www.eicar.org | 213.211.198.0/24 |
-| Ad-Blocking | google ads | 216.58.192.0/19 |
+| Ad-Blocking | www.googleadservices.com | 216.58.192.0/19 |
 
 
 ### Starting up odor
