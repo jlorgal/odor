@@ -21,7 +21,8 @@ RUN go get -v github.com/golang/lint/golint \
               github.com/golang/dep/cmd/dep \
               github.com/aktau/github-release \
               golang.org/x/net/bpf \
-              golang.org/x/sys/unix
+              golang.org/x/sys/unix \
+              github.com/google/gopacket
 
 # Mount the source code of the project under GOPATH
 WORKDIR $GOPROJECT
