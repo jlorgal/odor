@@ -1,6 +1,8 @@
 # Odor
 
-A more efficient approach of niji platform.
+A more efficient approach of niji platform (safe navigation customizable by the user).
+
+![Architecture](doc/architecture.png)
 
 ## Usage
 
