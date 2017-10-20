@@ -122,19 +122,23 @@ func (s *Service) UpdateUserProfile(w http.ResponseWriter, r *http.Request) {
 
 // GetUserProfile returns the user profile
 func GetUserProfile(msisdn string) (*odor.Profile, error) {
+	svc.NewLogger().Info("GetUserProfile for msisdn: %s", msisdn)
 	if v, ok := profiles[msisdn]; ok {
-		p := v
-		return p, nil
+		svc.NewLogger().Info("Obtained profile: %+v", v)
+		return v, nil
 	}
+	svc.NewLogger().Warn("No profile for msisdn %s", msisdn)
 	return nil, svc.NotFoundError
 }
 
-// GetRadiusMapping returns the radius packet associated to an IP
+// GetRadiusPacket returns the radius packet associated to an IP
 func GetRadiusPacket(ip string) (*odor.RadiusPacket, error) {
+	svc.NewLogger().Info("GetRadiusPacket for IP: %s", ip)
 	if v, ok := radiusMap[ip]; ok {
-		r := v
-		return r, nil
+		svc.NewLogger().Info("Obtained mapping: %+v", v)
+		return v, nil
 	}
+	svc.NewLogger().Warn("No mapping for IP %s", ip)
 	return nil, svc.NotFoundError
 }
 
