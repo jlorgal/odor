@@ -55,7 +55,7 @@ func main() {
 
 	// Start the Profile Service
 	logger.Info("Starting service")
-	go serviceProfile.Start()
+	serviceProfile.Start()
 
 	// Create filters
 	parentalControlFilter, err := filters.NewParentalControl(&cfg)
