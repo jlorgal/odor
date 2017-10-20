@@ -29,12 +29,11 @@ func NewNetFilter(handler PacketHandler) *NetFilter {
 		handler: handler,
 	}
 	netFilterStatic = netFilter
-	//queue.SetCallback(netFilter.Callback)
-	queue.SetCallback(static_callback)
+	queue.SetCallback(staticCallback)
 	return netFilter
 }
 
-func static_callback(payload *nfqueue.Payload) int {
+func staticCallback(payload *nfqueue.Payload) int {
 	return netFilterStatic.Callback(payload)
 }
 
@@ -44,6 +43,7 @@ func (n *NetFilter) Start(queueNum int) {
 	n.queue.Unbind(syscall.SOCK_PACKET)
 	n.queue.Bind(syscall.SOCK_PACKET)
 	n.queue.CreateQueue(queueNum)
+	n.queue.Loop()
 }
 
 // Stop the NetFilter queue.
