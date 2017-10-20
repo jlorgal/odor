@@ -17,15 +17,15 @@ const (
 	Component = "profile"
 )
 
-var profiles map[string]*odor.Profile
-var radiusMap map[string]*odor.RadiusPacket
+var profiles map[string]odor.Profile
+var radiusMap map[string]odor.RadiusPacket
 
 // Service represents the Profile service
 type Service struct {
 	*odor.Config
 	server     *http.Server
-	usersChan  chan *odor.Profile
-	radiusChan chan *odor.RadiusPacket
+	usersChan  chan odor.Profile
+	radiusChan chan odor.RadiusPacket
 }
 
 // New creates
@@ -44,9 +44,10 @@ func (s *Service) Start() error {
 		Addr:    s.Address,
 		Handler: s.router(),
 	}
-	s.usersChan = make(chan *odor.Profile)
-	profiles = map[string]*odor.Profile{}
-	radiusMap = map[string]*odor.RadiusPacket{}
+	s.usersChan = make(chan odor.Profile)
+	s.radiusChan = make(chan odor.RadiusPacket)
+	profiles = map[string]odor.Profile{}
+	radiusMap = map[string]odor.RadiusPacket{}
 	go s.run()
 	return s.server.ListenAndServe()
 }
@@ -63,8 +64,10 @@ func (s *Service) Stop() error {
 
 func (s *Service) router() *mux.Router {
 	r := mux.NewRouter()
-	r.HandleFunc("/users/{msisdn}", s.withMws("updateUserProfile")(s.UpdateUserProfile)).Methods("PUT")
+	r.HandleFunc("/users/{msisdn}", s.withMws("UpdateUserProfile")(s.UpdateUserProfile)).Methods("PUT")
+	r.HandleFunc("/users/{msisdn}", s.withMws("GetUserProfileHandler")(s.GetUserProfileHandler)).Methods("GET")
 	r.HandleFunc("/ips/{ip}", s.withMws("InjectRadiusPacket")(s.InjectRadiusPacket)).Methods("PUT")
+	r.HandleFunc("/ips/{ip}", s.withMws("GetRadiusPacketHandler")(s.GetRadiusPacketHandler)).Methods("GET")
 	r.HandleFunc("/", s.withMws("Welcome")(s.Welcome)).Methods("GET")
 	r.NotFoundHandler = http.HandlerFunc(s.withMws("notFound")(svc.WithNotFound()))
 	return r
@@ -103,7 +106,19 @@ func (s *Service) InjectRadiusPacket(w http.ResponseWriter, r *http.Request) {
 	// 	svc.ReplyWithError(w, r, err)
 	// 	return
 	// }
-	s.radiusChan <- &request
+	s.radiusChan <- request
+	w.WriteHeader(http.StatusOK)
+}
+
+// GetRadiusPacketHandler injects a radius packet to map (ip, msisdn)
+func (s *Service) GetRadiusPacketHandler(w http.ResponseWriter, r *http.Request) {
+	ip := mux.Vars(r)["ip"]
+	radiusPacket, err := GetRadiusPacket(ip)
+	if err != nil {
+		w.WriteHeader(http.StatusNotFound)
+	}
+	encoder := json.NewEncoder(w)
+	encoder.Encode(radiusPacket)
 }
 
 // UpdateUserProfile updates profile
@@ -117,15 +132,28 @@ func (s *Service) UpdateUserProfile(w http.ResponseWriter, r *http.Request) {
 		svc.ReplyWithError(w, r, invalidRequestError)
 		return
 	}
-	s.usersChan <- &request
+	s.usersChan <- request
+	w.WriteHeader(http.StatusOK)
+}
+
+// GetUserProfileHandler injects a radius packet to map (ip, msisdn)
+func (s *Service) GetUserProfileHandler(w http.ResponseWriter, r *http.Request) {
+	msisdn := mux.Vars(r)["msisdn"]
+	profile, err := GetUserProfile(msisdn)
+	if err != nil {
+		w.WriteHeader(http.StatusNotFound)
+	}
+	encoder := json.NewEncoder(w)
+	encoder.Encode(profile)
 }
 
 // GetUserProfile returns the user profile
 func GetUserProfile(msisdn string) (*odor.Profile, error) {
+	svc.NewLogger().Info("%+v", profiles)
 	svc.NewLogger().Info("GetUserProfile for msisdn: %s", msisdn)
 	if v, ok := profiles[msisdn]; ok {
 		svc.NewLogger().Info("Obtained profile: %+v", v)
-		return v, nil
+		return &v, nil
 	}
 	svc.NewLogger().Warn("No profile for msisdn %s", msisdn)
 	return nil, svc.NotFoundError
@@ -136,7 +164,7 @@ func GetRadiusPacket(ip string) (*odor.RadiusPacket, error) {
 	svc.NewLogger().Info("GetRadiusPacket for IP: %s", ip)
 	if v, ok := radiusMap[ip]; ok {
 		svc.NewLogger().Info("Obtained mapping: %+v", v)
-		return v, nil
+		return &v, nil
 	}
 	svc.NewLogger().Warn("No mapping for IP %s", ip)
 	return nil, svc.NotFoundError
