@@ -17,7 +17,7 @@ func NewLoadProfile() *LoadProfile {
 // Request filters ingress packets.
 func (p *LoadProfile) Request(context *odor.Context) odor.FilterAction {
 
-	if context.Profile != nil && context.Profile.MSISDN != nil {
+	if context.Profile != nil && context.Profile.MSISDN != "" {
 		if profile, err := profile.GetUserProfile(context.Profile.MSISDN); err == nil {
 			context.Profile = profile
 		}

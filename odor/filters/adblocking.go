@@ -31,6 +31,6 @@ func (a *AdBlocking) Request(context *odor.Context) odor.FilterAction {
 }
 
 // Response filters egress packets.
-func (m *Malware) Response(context *odor.Context) odor.FilterAction {
+func (a *AdBlocking) Response(context *odor.Context) odor.FilterAction {
 	return odor.Accept
 }

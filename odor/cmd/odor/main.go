@@ -64,14 +64,28 @@ func main() {
 		os.Exit(1)
 	}
 
+	malwareFilter, err := filters.NewMalware(&cfg)
+	if err != nil {
+		logger.Fatal("Bad configuration for malware filter. %s", err)
+		os.Exit(1)
+	}
+
+	adblockingFilter, err := filters.NewAdBlocking(&cfg)
+	if err != nil {
+		logger.Fatal("Bad configuration for AdBlocking filter. %s", err)
+		os.Exit(1)
+	}
+
 	// Start the pipeline engine
 	pipeline := odor.NewPipeline()
 	pipeline.AddFilters(
 		filters.NewIdentifyUser(),
 		filters.NewLoadProfile(),
 		parentalControlFilter,
+		malwareFilter,
+		adblockingFilter,
 	)
 
-	netFilter := NewNetFilter(pipeline)
+	netFilter := odor.NewNetFilter(pipeline)
 	netFilter.Start(0)
 }
