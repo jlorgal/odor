@@ -126,7 +126,7 @@ Provision the user profile:
 
 ```sh
 curl -X PUT \
-  http://10.95.61.198:9000/users/34123456789 \
+  http://<odor-ip>:9000/users/34123456789 \
   -H 'content-type: application/json' \
   -d '{
  "msisdn": "34123456789",
@@ -142,7 +142,7 @@ Provision the mapping between IP and msisdn:
 
 ```sh
 curl -X PUT \
-  http://10.95.61.198:9000/ips/10.95.61.136 \
+  http://<odor-ip>:9000/ips/10.95.61.136 \
   -H 'content-type: application/json' \
   -d '{
  "ip": "10.95.61.136",
@@ -154,7 +154,7 @@ It is possible to change the user profile (e.g. to disable all the settings):
 
 ```sh
 curl -X PUT \
-  http://10.95.61.198:9000/users/34123456789 \
+  http://<odor-ip>:9000/users/34123456789 \
   -H 'content-type: application/json' \
   -d '{
  "msisdn": "34123456789",
