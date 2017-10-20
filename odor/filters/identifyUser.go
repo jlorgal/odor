@@ -9,7 +9,7 @@ import (
 type IdentifyUser struct {
 }
 
-// IdentifyUser creates a IdentifyUser filter
+// NewIdentifyUser creates a IdentifyUser filter
 func NewIdentifyUser() *IdentifyUser {
 	return &IdentifyUser{}
 }
@@ -20,7 +20,7 @@ func (p *IdentifyUser) Request(context *odor.Context) odor.FilterAction {
 	if ipv4 := odor.GetIPv4Layer(context.Packet); ipv4 != nil {
 		srcIP := ipv4.SrcIP
 		if radiusPacket, err := profile.GetRadiusPacket(srcIP.String()); err == nil {
-			context.Profile.MSISDN = radiusPacket.MSISDN
+			context.Profile = &odor.Profile{MSISDN: radiusPacket.MSISDN}
 		}
 	}
 	return odor.Accept

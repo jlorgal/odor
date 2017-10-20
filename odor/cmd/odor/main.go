@@ -55,7 +55,7 @@ func main() {
 
 	// Start the Profile Service
 	logger.Info("Starting service")
-	serviceProfile.Start()
+	go serviceProfile.Start()
 
 	// Create filters
 	parentalControlFilter, err := filters.NewParentalControl(&cfg)
@@ -67,7 +67,11 @@ func main() {
 	// Start the pipeline engine
 	pipeline := odor.NewPipeline()
 	pipeline.AddFilters(
+		filters.NewIdentifyUser(),
+		filters.NewLoadProfile(),
 		parentalControlFilter,
 	)
 
+	netFilter := NewNetFilter(pipeline)
+	netFilter.Start(0)
 }
