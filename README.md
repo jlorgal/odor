@@ -72,7 +72,9 @@ iptables-save -c
 The following command is responsible of forwarding all the SYN packets (to establish connections) for traffic HTTP and HTTPS to netfilter queue with number 1. The SYN packets enqueued are processed by odor:
 
 ```sh
-iptables -t raw -A PREROUTING -p tcp -m multiport --dports 80,443 --tcp-flags SYN SYN -j NFQUEUE --queue-num 1 --queue-bypass
+iptables -t raw -A PREROUTING -p tcp \
+         -m multiport --dports 80,443 --tcp-flags SYN SYN \
+         -j NFQUEUE --queue-num 1 --queue-bypass
 ```
 
 ### Configuring odor
