@@ -87,5 +87,5 @@ func main() {
 	)
 
 	netFilter := odor.NewNetFilter(pipeline)
-	netFilter.Start(0)
+	netFilter.Start(cfg.NfqueueID)
 }

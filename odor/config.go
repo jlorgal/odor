@@ -4,6 +4,6 @@ package odor
 type Config struct {
 	LogLevel  string              `json:"logLevel" env:"LOG_LEVEL"`
 	Address   string              `json:"address" env:"ADDRESS"`
-	NfqueueID int                 `json:"nfqueueID" env:"N_QUEUE_ID"`
+	NfqueueID int                 `json:"nfqueueID" env:"NF_QUEUE_ID"`
 	Filters   map[string][]string `json:"filters"`
 }
