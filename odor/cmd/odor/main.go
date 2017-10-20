@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/jlorgal/odor/odor"
+	"github.com/jlorgal/odor/odor/filters"
 	"github.com/jlorgal/odor/odor/profile"
 	"github.com/jlorgal/odor/odor/svc"
 )
@@ -52,8 +53,15 @@ func main() {
 		}
 	}()
 
-	// Start the service
+	// Start the Profile Service
 	logger.Info("Starting service")
 	serviceProfile.Start()
-	// How to start the service???
+
+	// Start the pipeline engine
+
+	pipeline := odor.NewPipeline()
+	pipeline.AddFilters(
+		filters.NewParentalControl(),
+	)
+
 }

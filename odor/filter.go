@@ -1,16 +1,8 @@
 package odor
 
-import "github.com/google/gopacket"
-
-// Profile contains the user identity (msisdn) and settings.
-type Profile struct {
-	MSISDN          string `json:"msisdn"`
-	AntiPhishing    bool   `json:"antiPhising"`
-	AntiMalware     bool   `json:"antiMalware"`
-	ParentalControl bool   `json:"parentalControl"`
-	AdBlocking      bool   `json:"adBlocking"`
-	Captive         bool   `json:"captive"`
-}
+import (
+	"github.com/google/gopacket"
+)
 
 // Context to use by filters.
 type Context struct {
