@@ -3,6 +3,7 @@ package filters
 import (
 	"github.com/jlorgal/odor/odor"
 	"github.com/jlorgal/odor/odor/profile"
+	"github.com/jlorgal/odor/odor/svc"
 )
 
 // LoadProfile filter.
@@ -21,6 +22,8 @@ func (p *LoadProfile) Request(context *odor.Context) odor.FilterAction {
 		if profile, err := profile.GetUserProfile(context.Profile.MSISDN); err == nil {
 			context.Profile = profile
 		}
+	} else {
+		svc.NewLogger().Warn("No profile!: %+v", context.Profile)
 	}
 
 	return odor.Accept
